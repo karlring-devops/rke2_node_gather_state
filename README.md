@@ -3,7 +3,8 @@ RKE2 Node State artifacts gather script - for offline CLuster Debugging
 
 Instructions: 
 
-  mkdir -p ~/.rke2/bin && cd -p ~/.rke2/bin && git clone <repository>.git && cd rke2_node_gather_state
+    mkdir -p ~/.rke2/bin 
+    cd -p ~/.rke2/bin && git clone <repository>.git && cd rke2_node_gather_state
 
   #--- CLuster Built from Docker Private Repository (AirGap) node 1 ---#
   
