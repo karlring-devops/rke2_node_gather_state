@@ -206,6 +206,26 @@ function getNodeData(){
     zipTempDir ${dtrType} ${rVersion} ${rNode}
 }
 
+function r2nodeinfo(){
+    dtrType="${1}"
+    rke2Version="${2}"
+    rke2NodeNum="${3}"
+    . `pwd`/rke2_gather_node_state.sh ${dtrType} ${rke2Version} ${rke2NodeNum}
+}
+
+
+function r2nodeinfoLoad(){
+    dtrType="${1}"
+    rke2Version="${2}"
+    cd ../
+    rm -rf rke2_gather_node_state/
+    pwd
+    git clone https://github.com/karlring-devops/rke2_gather_node_state.git
+    cd rke2_gather_node_state/
+    . `pwd`/rke2_gather_node_state.sh ${dtrType} ${rke2Version} ${rke2NodeNum}
+}
+
+
 #/***********************************************************************************************/#
 #|  MAIN
 #/***********************************************************************************************/#
@@ -215,7 +235,10 @@ INSTALL_RANCHERD_VERSION=${2}	#--- 2.5.11|2.6.3
 RKE2_NODE_NUMBER=${3}			#--- 1,2,3 nnnn
 
 # getNodeData public 2.5.11 1
-getNodeData ${DTR_TYPE} ${INSTALL_RANCHERD_VERSION} ${RKE2_NODE_NUMBER}
+main(){
+  getNodeData ${DTR_TYPE} ${INSTALL_RANCHERD_VERSION} ${RKE2_NODE_NUMBER}
+}
+
 
 #/***********************************************************************************************/#
 
