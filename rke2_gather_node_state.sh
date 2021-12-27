@@ -142,7 +142,7 @@ function rke2kubeconfig(){
   kubectl get pods -A
 }
 
-/var/lib/kube-proxy/config.conf
+
 
 function archiveRke2PodsYaml(){
   DTR_TYPE=${1}
@@ -196,9 +196,21 @@ function zipTempDir(){
   startTag=${nodeNumber}.${version}-${DTR_TYPE}  
   tempdir=/tmp/${startTag}-files
   tarFile=${tempdir}.${dateString}.tar.gz
-
+  
   sudo tar -zcf ${tarFile} ${tempdir}
   __MSG_BANNER__ "created:  ${tarFile}"
+}
+
+function getConfFiles(){
+  DTR_TYPE=${1}
+  version=${2}
+  nodeNumber=${3}
+  startTag=${nodeNumber}.${version}-${DTR_TYPE}  
+  tempdir=/tmp/${startTag}-files/config
+  fileTag=${tempdir}/${startTag}
+  rke2kubeconfig
+  [ ! -d ${tempdir} ] && sudo mkdir -p ${tempdir}
+  sudo cp /var/lib/kube-proxy/config.conf ${fileTag}.kube-proxy.conf
 }
 
 function getNodeData(){
@@ -213,6 +225,7 @@ function getNodeData(){
     copySnapshotsToTemp ${dtrType} ${rVersion} ${rNode}
     archiveRke2PodsYaml ${dtrType} ${rVersion} ${rNode}
     archiveRke2SvcYaml ${dtrType} ${rVersion} ${rNode}
+    getConfFiles  ${dtrType} ${rVersion} ${rNode}
     zipTempDir ${dtrType} ${rVersion} ${rNode} ${rDate}
 }
 
