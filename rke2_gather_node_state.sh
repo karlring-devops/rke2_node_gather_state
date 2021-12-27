@@ -20,8 +20,14 @@ function __MSG_INFO__(){
 }
 
 #\******************************************************************/#
-#| gather node data
-#\******************************************************************/#
+#                                  _             
+#   __ _  ___ _ __   ___ _ __ __ _| |            
+#  / _` |/ _ \ '_ \ / _ \ '__/ _` | |            
+# | (_| |  __/ | | |  __/ | | (_| | |  _   _   _ 
+#  \__, |\___|_| |_|\___|_|  \__,_|_| (_) (_) (_)
+#  |___/                                         
+#
+#/------------------------------------------------------------------\#
 function makeTempDirs(){
   DTR_TYPE=${1}
   version=${2}
@@ -185,17 +191,20 @@ function zipTempDir(){
   DTR_TYPE=${1}
   version=${2}
   nodeNumber=${3}
+  dateString=${4}
   startTag=${nodeNumber}.${version}-${DTR_TYPE}  
   tempdir=/tmp/${startTag}-files
+  tarFile=${tempdir}.${dateString}.tar.gz
 
-  sudo tar -zcf ${tempdir}.tar.gz ${tempdir}
-  __MSG_BANNER__ "created: ${tempdir}.tar.gz "
+  sudo tar -zcf ${tarFile} ${tempdir}
+  __MSG_BANNER__ "created:  ${tarFile}"
 }
 
 function getNodeData(){
     dtrType=${1}
     rVersion=${2}
     rNode=${3}
+    rDate=${4}
     makeTempDirs ${dtrType} ${rVersion} ${rNode}
     getpsef ${dtrType} ${rVersion} ${rNode}
     getYamlFiles ${dtrType} ${rVersion} ${rNode}
@@ -203,7 +212,7 @@ function getNodeData(){
     copySnapshotsToTemp ${dtrType} ${rVersion} ${rNode}
     archiveRke2PodsYaml ${dtrType} ${rVersion} ${rNode}
     archiveRke2SvcYaml ${dtrType} ${rVersion} ${rNode}
-    zipTempDir ${dtrType} ${rVersion} ${rNode}
+    zipTempDir ${dtrType} ${rVersion} ${rNode} ${rDate}
 }
 
 function r2nodeinfo(){
@@ -217,26 +226,32 @@ function r2nodeinfo(){
 function r2nodeinfoLoad(){
     dtrType="${1}"
     rke2Version="${2}"
+    rke2NodeNum="${3}"
     cd ../
-    rm -rf rke2_gather_node_state/
+    rm -rf rke2_node_gather_state/
     pwd
-    git clone https://github.com/karlring-devops/rke2_gather_node_state.git
-    cd rke2_gather_node_state/
+    git clone https://github.com/karlring-devops/rke2_node_gather_state.git
+    cd rke2_node_gather_state/
     . `pwd`/rke2_gather_node_state.sh ${dtrType} ${rke2Version} ${rke2NodeNum}
 }
 
-
-#/***********************************************************************************************/#
-#|  MAIN
-#/***********************************************************************************************/#
+#\******************************************************************/#
+#                  _       
+#  _ __ ___   __ _(_)_ __  
+# | '_ ` _ \ / _` | | '_ \ 
+# | | | | | | (_| | | | | |
+# |_| |_| |_|\__,_|_|_| |_|
+#                                                                      
+#\******************************************************************/#
 
 DTR_TYPE=${1}					#--- public|private
 INSTALL_RANCHERD_VERSION=${2}	#--- 2.5.11|2.6.3
 RKE2_NODE_NUMBER=${3}			#--- 1,2,3 nnnn
 
-# getNodeData public 2.5.11 1
-main(){
-  getNodeData ${DTR_TYPE} ${INSTALL_RANCHERD_VERSION} ${RKE2_NODE_NUMBER}
+
+rke2_gather_node_state(){
+  export RKE2_DTR_STR=`date '+%Y%m%d%H%s'`
+  getNodeData ${DTR_TYPE} ${INSTALL_RANCHERD_VERSION} ${RKE2_NODE_NUMBER} ${RKE2_DTR_STR}
 }
 
 
