@@ -32,7 +32,7 @@ function makeTempDirs(){
   DTR_TYPE=${1}
   version=${2}
   nodeNumber=${3}
-  startTag=${nodeNumber}.${version}-${DTR_TYPE}
+  startTag=${nodeNumber}.${version}-${DTR_TYPE}.${RKE2_NODE_TYPE}
 
   DIRS="${startTag}-files ${startTag}.all_yaml ${startTag}.pod-manifests"
 
@@ -50,7 +50,7 @@ function getpsef(){
   DTR_TYPE=${1}
   version=${2}
   nodeNumber=${3}
-  startTag=${nodeNumber}.${version}-${DTR_TYPE}
+  startTag=${nodeNumber}.${version}-${DTR_TYPE}.${RKE2_NODE_TYPE}
   tempdir=/tmp/${startTag}-files
   logfile=${tempdir}/${startTag}.getpsef.log
   {
@@ -66,7 +66,7 @@ function getYamlFiles(){
   DTR_TYPE=${1}
   version=${2}
   nodeNumber=${3}
-  startTag=${nodeNumber}.${version}-${DTR_TYPE}  
+  startTag=${nodeNumber}.${version}-${DTR_TYPE}.${RKE2_NODE_TYPE}  
   tempdir=/tmp/${startTag}-files
 
   YAML_FILES=${tempdir}/${startTag}-all-yaml-files.log
@@ -91,7 +91,7 @@ function copyLogsToTemp(){
   DTR_TYPE=${1}
   version=${2}
   nodeNumber=${3}
-  startTag=${nodeNumber}.${version}-${DTR_TYPE}  
+  startTag=${nodeNumber}.${version}-${DTR_TYPE}.${RKE2_NODE_TYPE}  
   tempdir=/tmp/${startTag}-files
 
     logHeader="$tempdir/${nodeNumber}.${version}-${DTR_TYPE}"
@@ -106,7 +106,7 @@ function copySnapshotsToTemp(){
   DTR_TYPE=${1}
   version=${2}
   nodeNumber=${3}
-  startTag=${nodeNumber}.${version}-${DTR_TYPE}  
+  startTag=${nodeNumber}.${version}-${DTR_TYPE}.${RKE2_NODE_TYPE}  
   tempdir=/tmp/${startTag}-files
 
     snapShotsDirTemp=$tempdir/io.containerd.snapshotter.v1.overlayfs.snapshots
@@ -121,7 +121,7 @@ function archiveRke2Root(){
   DTR_TYPE=${1}
   version=${2}
   nodeNumber=${3}
-  startTag=${nodeNumber}.${version}-${DTR_TYPE}  
+  startTag=${nodeNumber}.${version}-${DTR_TYPE}.${RKE2_NODE_TYPE}  
   tempdir=/tmp/${startTag}-files
   RKE2_ROOT=/var/lib/rancher/rke2/data/v2.5.11-4cf00d51c2e5
   tarFile=${tempdir}/${startTag}-rke2-root-dir.tar.gz
@@ -148,7 +148,7 @@ function archiveRke2PodsYaml(){
   DTR_TYPE=${1}
   version=${2}
   nodeNumber=${3}
-  startTag=${nodeNumber}.${version}-${DTR_TYPE}  
+  startTag=${nodeNumber}.${version}-${DTR_TYPE}.${RKE2_NODE_TYPE}  
   tempdir=/tmp/${startTag}-files/yaml/pods
   fileTag=${tempdir}/${startTag}
   rke2kubeconfig
@@ -170,7 +170,7 @@ function archiveRke2SvcYaml(){
   DTR_TYPE=${1}
   version=${2}
   nodeNumber=${3}
-  startTag=${nodeNumber}.${version}-${DTR_TYPE}  
+  startTag=${nodeNumber}.${version}-${DTR_TYPE}.${RKE2_NODE_TYPE}  
   tempdir=/tmp/${startTag}-files/yaml/services
   fileTag=${tempdir}/${startTag}
   rke2kubeconfig
@@ -194,7 +194,7 @@ function zipTempDir(){
   nodeNumber=${3}
   dateString=${4}
   nodeType=${5}
-  startTag=${nodeNumber}.${version}-${DTR_TYPE}  
+  startTag=${nodeNumber}.${version}-${DTR_TYPE}.${RKE2_NODE_TYPE}  
   tempdir=/tmp/${startTag}-files
   tarFile=${tempdir}.${dateString}.${nodeType}.tar.gz
   
@@ -206,7 +206,7 @@ function getConfFiles(){
   DTR_TYPE=${1}
   version=${2}
   nodeNumber=${3}
-  startTag=${nodeNumber}.${version}-${DTR_TYPE}  
+  startTag=${nodeNumber}.${version}-${DTR_TYPE}.${RKE2_NODE_TYPE}  
   tempdir=/tmp/${startTag}-files/config
   fileTag=${tempdir}/${startTag}
   rke2kubeconfig
