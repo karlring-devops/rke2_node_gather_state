@@ -212,6 +212,7 @@ function getConfFiles(){
   rke2kubeconfig
   [ ! -d ${tempdir} ] && sudo mkdir -p ${tempdir}
   sudo cp /var/lib/kube-proxy/config.conf ${fileTag}.kube-proxy.conf
+  sudo cp /var/lib/rancher/rke2/agent/images/* ${tempdir}/
 }
 
 function getNodeData(){
@@ -273,4 +274,10 @@ rke2_gather_node_state(){
 
 
 #/***********************************************************************************************/#
+
+
+
+
+
+
 
