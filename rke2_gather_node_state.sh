@@ -118,7 +118,6 @@ function copySnapshotsToTemp(){
 }
 
 function archiveRke2Root(){
-
   DTR_TYPE=${1}
   version=${2}
   nodeNumber=${3}
@@ -143,7 +142,7 @@ function rke2kubeconfig(){
   kubectl get pods -A
 }
 
-
+/var/lib/kube-proxy/config.conf
 
 function archiveRke2PodsYaml(){
   DTR_TYPE=${1}
@@ -164,6 +163,7 @@ function archiveRke2PodsYaml(){
         kubectl get pod ${podName} -n ${podNamespace} -o yaml | tee -a ${objectYaml}
         __MSG_INFO__ "Creating" "${objectYaml}"
     done
+    kubectl get pods -A > ${fileTag}.kubectl.get.pods.a.log
 }
 
 function archiveRke2SvcYaml(){
@@ -185,6 +185,7 @@ function archiveRke2SvcYaml(){
         kubectl get svc ${svcName} -n ${svcNamespace} -o yaml | tee -a ${objectYaml}
         __MSG_INFO__ "Creating" "${objectYaml}"
     done
+    kubectl get svc -A > ${fileTag}.kubectl.get.serivce.a.log
 }
 
 function zipTempDir(){
