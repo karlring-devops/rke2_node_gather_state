@@ -193,9 +193,10 @@ function zipTempDir(){
   version=${2}
   nodeNumber=${3}
   dateString=${4}
+  nodeType=${5}
   startTag=${nodeNumber}.${version}-${DTR_TYPE}  
   tempdir=/tmp/${startTag}-files
-  tarFile=${tempdir}.${dateString}.tar.gz
+  tarFile=${tempdir}.${dateString}.${nodeType}.tar.gz
   
   sudo tar -zcf ${tarFile} ${tempdir}
   __MSG_BANNER__ "created:  ${tarFile}"
@@ -218,6 +219,7 @@ function getNodeData(){
     rVersion=${2}
     rNode=${3}
     rDate=${4}
+    rNodeType=${5}
     makeTempDirs ${dtrType} ${rVersion} ${rNode}
     getpsef ${dtrType} ${rVersion} ${rNode}
     getYamlFiles ${dtrType} ${rVersion} ${rNode}
@@ -226,7 +228,7 @@ function getNodeData(){
     archiveRke2PodsYaml ${dtrType} ${rVersion} ${rNode}
     archiveRke2SvcYaml ${dtrType} ${rVersion} ${rNode}
     getConfFiles  ${dtrType} ${rVersion} ${rNode}
-    zipTempDir ${dtrType} ${rVersion} ${rNode} ${rDate}
+    zipTempDir ${dtrType} ${rVersion} ${rNode} ${rDate} ${rNodeType}
 }
 
 function r2nodeinfo(){
@@ -235,7 +237,7 @@ function r2nodeinfo(){
     rke2NodeNum="${3}"
     . `pwd`/rke2_gather_node_state.sh ${dtrType} ${rke2Version} ${rke2NodeNum}
 }
-
+  
 
 function r2nodeinfoLoad(){
     dtrType="${1}"
@@ -258,14 +260,15 @@ function r2nodeinfoLoad(){
 #                                                                      
 #\******************************************************************/#
 
-DTR_TYPE=${1}					#--- public|private
+DTR_TYPE=${1}					    #--- public|private
 INSTALL_RANCHERD_VERSION=${2}	#--- 2.5.11|2.6.3
 RKE2_NODE_NUMBER=${3}			#--- 1,2,3 nnnn
+RKE2_NODE_TYPE=${4}       #--- server|worker
 
 
 rke2_gather_node_state(){
   export RKE2_DTR_STR=`date '+%Y%m%d%H%s'`
-  getNodeData ${DTR_TYPE} ${INSTALL_RANCHERD_VERSION} ${RKE2_NODE_NUMBER} ${RKE2_DTR_STR}
+  getNodeData ${DTR_TYPE} ${INSTALL_RANCHERD_VERSION} ${RKE2_NODE_NUMBER} ${RKE2_DTR_STR} ${RKE2_NODE_TYPE}
 }
 
 
